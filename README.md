@@ -1,22 +1,44 @@
-# ickinesis
+# kinesis
 
-A kinesis consumer with color. Name inspired by [icdiff](https://github.com/jeffkaufman/icdiff).
+A kinesis consumer with color.
 
-[![Build Status](https://travis-ci.org/davegallant/ickinesis.svg?branch=master)](https://travis-ci.org/davegallant/ickinesis)
-[![PyPI version](https://badge.fury.io/py/ickinesis.svg)](https://badge.fury.io/py/ickinesis)
+![kinesis_gif](https://user-images.githubusercontent.com/4519234/54093775-944dc180-4371-11e9-8c0d-326a3e12b023.gif)
 
+[![Build Status](https://travis-ci.org/davegallant/kinesis.svg?branch=master)](https://travis-ci.org/davegallant/kinesis)
+[![PyPI version](https://badge.fury.io/py/kinesis.svg)](https://badge.fury.io/py/kinesis)
 
 ## Installation
 
 ```bash
-pip install ickinesis
+pip install kinesis
 ```
+
+Credentials for AWS are read from `~/.aws/credentials`.
+
+Optionally, config is loaded from `~/.aws/config`.
 
 ## Usage
 
-Start consuming at the latest offset:
+### Consume
+
+Start consuming at the latest shard iterator:
 
 ```bash
-ickinesis -s my-stream
+kinesis consume --stream my-stream
 ```
 
+### Consume and Capture
+
+If you want to capture:
+
+```bash
+kinesis consume --stream my-stream --capture
+```
+
+### Produce from file
+
+Produce a
+
+```bash
+kinesis --stream dave-stream -f ./my_file.json --repeat 1000
+```

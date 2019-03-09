@@ -1,2 +1,2 @@
-include ickinesis/__version__.py
+include kinesis/__version__.py
 include requirements.txt

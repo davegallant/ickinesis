@@ -117,4 +117,4 @@ results/
 
 Pipfile*
 
-ickinesis_dump_*.json
+kinesis_dump_*.json
