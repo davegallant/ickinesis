@@ -1,18 +1,36 @@
-from uuid import uuid4
+from collections import deque
+from random import randint
 import boto3
 
 
 class KinesisProducer:
-    def __init__(self, stream_name, kinesis_client=None):
-        self.kinesis_client = kinesis_client or boto3.Session().client("kinesis")
-        self.stream_name = stream_name
+    def __init__(
+        self, stream_name: str, max_queue: int = 500, client: str = None
+    ) -> None:
+        self._client = client or boto3.client("kinesis")
+        self._stream_name = stream_name
+        self.queue = deque()
+        self._max_queue = max_queue
 
-    def put_record(self, message, partition_key=None):
-        self.kinesis_client.put_record(
-            StreamName=self.stream_name,
+    @staticmethod
+    def random_partition() -> str:
+        return randint(0, 10 ** 12).__str__()
+
+    def put_record(self, message: str) -> None:
+        self._client.put_record(
+            StreamName=self._stream_name,
             Data=message,
-            PartitionKey=partition_key or uuid4().hex,
+            PartitionKey=self.random_partition(),
         )
 
-    def put_records(self, messages):
-        self.kinesis_client.put_records(StreamName=self.stream_name, Records=messages)
+    def queue_message(self, message: str) -> None:
+        self.queue.append({"Data": message, "PartitionKey": self.random_partition()})
+        if len(self.queue) >= self._max_queue:
+            self.flush()
+
+    def flush(self) -> None:
+        if self.queue:
+            self._client.put_records(
+                Records=list(self.queue), StreamName=self._stream_name
+            )
+            self.queue.clear()
