@@ -54,6 +54,7 @@ confidence=
 
 disable=
     attribute-defined-outside-init,
+    bad-continuation,
     missing-docstring,
     no-value-for-parameter,
     protected-access,
