@@ -12,7 +12,7 @@ class KinesisProducer:
         self._max_queue = max_queue
 
     def __del__(self):
-        self._client.flush()
+        self.flush()
 
     @staticmethod
     def random_partition():
