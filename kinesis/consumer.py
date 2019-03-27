@@ -11,7 +11,7 @@ class KinesisConsumer:
         self.shard_iterator_type = shard_iterator_type
         self.stream_name = stream_name
         self.shards = {}
-        # TODO: need to take into account resharding (i.e expired shards)
+        # need to take into account resharding (i.e expired shards)
         self.update_shards()
 
     def __iter__(self):

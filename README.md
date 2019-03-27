@@ -35,10 +35,8 @@ If you want to capture:
 kinesis consume --stream my-stream --capture
 ```
 
-### Produce from file
-
-Produce a
+### Produce from a file
 
 ```bash
-kinesis --stream dave-stream -f ./my_file.json --repeat 1000
+kinesis produce --stream my-stream -f ./my_file.json --repeat 100
 ```

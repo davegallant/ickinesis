@@ -12,7 +12,7 @@ with io.open(path.join(WORKING_DIR, "README.md"), encoding="utf-8") as f:
 
 setup(
     author="Dave Gallant",
-    description="improved colored kinesis",
+    description="a kinesis consumer / producer",
     entry_points={"console_scripts": ["kinesis=kinesis.cli:main"]},
     install_requires=["boto3>=1.5.36", "pygments>=2.2.0"],
     keywords=["aws", "kinesis", "pygments"],
