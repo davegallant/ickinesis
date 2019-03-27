@@ -57,6 +57,7 @@ disable=
     bad-continuation,
     missing-docstring,
     no-value-for-parameter,
+    old-style-class,
     protected-access,
     superfluous-parens,
     too-few-public-methods,

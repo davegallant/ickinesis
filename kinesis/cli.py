@@ -40,7 +40,7 @@ def start_consuming(args):
         try:
             print(highlight(message.decode(), JsonLexer(), TerminalFormatter()))
             settings.RECORDS_CAPTURED.append(json.loads(message))
-        except json.JSONDecodeError:
+        except ValueError:
             settings.RECORDS_CAPTURED.append(message.decode())
         print()
         print("Records consumed: %s" % records_consumed)
