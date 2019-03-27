@@ -1,16 +1,18 @@
 from collections import deque
 from random import randint
+from time import sleep
 import boto3
 
 
 class KinesisProducer:
-    def __init__(
-        self, stream_name: str, max_queue: int = 500, client: str = None
-    ) -> None:
+    def __init__(self, stream_name: str, max_queue: int = 500, client: str = None):
         self._client = client or boto3.client("kinesis")
         self._stream_name = stream_name
         self.queue = deque()
         self._max_queue = max_queue
+
+    def __del__(self):
+        self._client.flush()
 
     @staticmethod
     def random_partition() -> str:
@@ -29,8 +31,9 @@ class KinesisProducer:
             self.flush()
 
     def flush(self) -> None:
-        if self.queue:
+        while self.queue:
             self._client.put_records(
-                Records=list(self.queue), StreamName=self._stream_name
+                Records=list(self.queue[:500]), StreamName=self._stream_name
             )
-            self.queue.clear()
+            del self.queue[:500]
+            sleep(0.25)
