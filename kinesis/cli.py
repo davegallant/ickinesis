@@ -38,10 +38,12 @@ def start_consuming(args):
         records_consumed += 1
         message = record.get("Data")
         try:
-            print(highlight(message.decode(), JsonLexer(), TerminalFormatter()))
+            message = json.dumps(json.loads(message.decode()), indent=4, sort_keys=True)
             settings.RECORDS_CAPTURED.append(json.loads(message))
         except ValueError:
             settings.RECORDS_CAPTURED.append(message.decode())
+        finally:
+            print(highlight(message, JsonLexer(), TerminalFormatter()))
         print()
         print("Records consumed: %s" % records_consumed)
         print()
