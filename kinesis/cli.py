@@ -10,6 +10,7 @@ from pygments.formatters import TerminalFormatter  # pylint: disable-msg=E0611
 from pygments.lexers import JsonLexer  # pylint: disable-msg=E0611
 from kinesis import settings
 from kinesis.consumer import KinesisConsumer
+from kinesis.streams import list_streams_by_region
 from kinesis.producer import KinesisProducer
 from kinesis.__version__ import VERSION
 
@@ -47,6 +48,10 @@ def start_consuming(args):
         print()
         print("Records consumed: %s" % records_consumed)
         print()
+
+
+def list_streams(args):
+    list_streams_by_region()
 
 
 def exit_handler():
@@ -111,6 +116,13 @@ def get_args():
         help="how many times to repeat producing records",
     )
     parser_produce.set_defaults(func=start_producing)
+
+    # "list-streams" sub-command
+    parser_list_streams = subparsers.add_parser(
+        "list-streams", help="list-streams help"
+    )
+
+    parser_list_streams.set_defaults(func=list_streams)
 
     return parser.parse_args()
 
