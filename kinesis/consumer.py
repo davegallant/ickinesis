@@ -38,10 +38,12 @@ class KinesisConsumer:
         records_queue = deque()
         # Go through each shard and look for records
         for shard_id, shard_iterator in self.shards.items():
-            records = self.client.get_records(ShardIterator=shard_iterator)
-            if records.get("Records"):
-                for record in records["Records"]:
-                    records_queue.append(record)
-            sleep(sleep_time)
-            self.shards[shard_id] = records["NextShardIterator"]
+            # In case of expiry
+            if shard_iterator:
+                records = self.client.get_records(ShardIterator=shard_iterator)
+                if records.get("Records"):
+                    for record in records["Records"]:
+                        records_queue.append(record)
+                sleep(sleep_time)
+                self.shards[shard_id] = records.get("NextShardIterator")
         return records_queue
