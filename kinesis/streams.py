@@ -2,7 +2,7 @@ from pprint import pprint
 import boto3
 
 
-def list_streams_by_region():
+def list_streams_by_region(args):
 
     # use ec2 client get get all regions
     regions = [
@@ -24,7 +24,7 @@ def list_streams_by_region():
                     pprint(response["StreamNames"])
                 if not response["HasMoreStreams"]:
                     break
-        except Exception:
+        except Exception:  # pylint: disable=broad-except
             # May not have permission in region
             # So skip permission errors
             pass

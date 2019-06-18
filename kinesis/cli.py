@@ -51,7 +51,7 @@ def start_consuming(args):
 
 
 def list_streams(args):
-    list_streams_by_region()
+    list_streams_by_region(args)
 
 
 def exit_handler():
